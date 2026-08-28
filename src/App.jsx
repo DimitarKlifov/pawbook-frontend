@@ -2,6 +2,7 @@ import Navbar from './components/layout/Navbar'
 import HeroSection from './components/hero/HeroSection'
 import AboutSection from './components/about/AboutSection'
 import GallerySection from './components/gallery/GallerySection'
+import Footer from './components/layout/Footer'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <HeroSection />
       <AboutSection />
       <GallerySection />
+      <Footer />
     </div>
   )
 }
