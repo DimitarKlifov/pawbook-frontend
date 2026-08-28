@@ -47,18 +47,23 @@ function GallerySection() {
         {!loading && !error && photos.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {photos.map((photo) => (
-              <div
-                key={photo.id}
-                className="rounded-3xl overflow-hidden aspect-square bg-surface"
-              >
-                <img
-                  src={photo.imageUrl}
-                  alt={`Groomed ${photo.breed}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
+  <div
+    key={photo.id}
+    className="rounded-3xl overflow-hidden bg-surface group"
+  >
+    <div className="aspect-square overflow-hidden">
+      <img
+        src={photo.imageUrl}
+        alt={`Groomed ${photo.breed}`}
+        loading="lazy"
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      />
+    </div>
+    <p className="font-body text-sm font-semibold text-text-muted text-center py-2 capitalize">
+      {photo.breed}
+    </p>
+  </div>
+))}
           </div>
         )}
       </div>
