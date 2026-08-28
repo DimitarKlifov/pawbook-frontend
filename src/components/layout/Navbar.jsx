@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import logo from '../../assets/images/logo.jpg'
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { isLoggedIn, logout } = useAuth()
 
   const navLinks = [
     { name: 'Home', href: '#home' },
@@ -38,13 +40,38 @@ function Navbar() {
             ))}
           </div>
 
-          <div className="hidden md:block">
-            <Link
-              to="/book"
-              className="bg-primary text-white px-6 py-2.5 rounded-full font-display font-semibold hover:bg-primary-dark transition-colors duration-200"
-            >
-              Book an Appointment
-            </Link>
+          <div className="hidden md:flex items-center gap-4">
+            {isLoggedIn ? (
+              <>
+                <Link
+                  to="/book"
+                  className="bg-primary text-white px-6 py-2.5 rounded-full font-display font-semibold hover:bg-primary-dark transition-colors duration-200"
+                >
+                  Book an Appointment
+                </Link>
+                <button
+                  onClick={logout}
+                  className="font-body font-semibold text-secondary hover:text-primary transition-colors duration-200"
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="font-body font-semibold text-secondary hover:text-primary transition-colors duration-200"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/book"
+                  className="bg-primary text-white px-6 py-2.5 rounded-full font-display font-semibold hover:bg-primary-dark transition-colors duration-200"
+                >
+                  Book an Appointment
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -75,13 +102,43 @@ function Navbar() {
                 {link.name}
               </a>
             ))}
-            <Link
-              to="/book"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block bg-primary text-white px-6 py-2.5 rounded-full font-display font-semibold text-center hover:bg-primary-dark transition-colors duration-200"
-            >
-              Book an Appointment
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  to="/book"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block bg-primary text-white px-6 py-2.5 rounded-full font-display font-semibold text-center hover:bg-primary-dark transition-colors duration-200"
+                >
+                  Book an Appointment
+                </Link>
+                <button
+                  onClick={() => {
+                    logout()
+                    setMobileMenuOpen(false)
+                  }}
+                  className="block w-full text-left font-body font-semibold text-secondary hover:text-primary transition-colors duration-200"
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block font-body font-semibold text-secondary hover:text-primary transition-colors duration-200"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/book"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block bg-primary text-white px-6 py-2.5 rounded-full font-display font-semibold text-center hover:bg-primary-dark transition-colors duration-200"
+                >
+                  Book an Appointment
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>
