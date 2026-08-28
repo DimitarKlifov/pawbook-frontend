@@ -4,6 +4,8 @@ import Footer from './components/layout/Footer'
 import HomePage from './pages/HomePage'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import MyPetsPage from './pages/MyPetsPage'
 
 function App() {
   return (
@@ -14,6 +16,11 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/my-pets" element={
+  <ProtectedRoute>
+    <MyPetsPage />
+  </ProtectedRoute>
+} />
         </Routes>
       </main>
       <Footer />
