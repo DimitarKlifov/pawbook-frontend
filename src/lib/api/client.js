@@ -9,12 +9,16 @@ async function apiRequest(endpoint, options = {}) {
     },
   })
 
+  const contentType = response.headers.get('content-type')
+  const isJson = contentType && contentType.includes('application/json')
+  const data = isJson ? await response.json() : await response.text()
+
   if (!response.ok) {
-    const errorBody = await response.json().catch(() => ({ message: 'Something went wrong' }))
-    throw new Error(errorBody.message || `Request failed: ${response.status}`)
+    const message = isJson ? data.message : data
+    throw new Error(message || `Request failed: ${response.status}`)
   }
 
-  return response.json()
+  return data
 }
 
 export default apiRequest
