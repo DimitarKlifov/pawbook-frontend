@@ -15,7 +15,7 @@ function AboutSection() {
   ]
 
   return (
-    <section className="bg-surface py-16 md:py-24">
+    <section id="about" className="bg-surface py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Image placeholder */}

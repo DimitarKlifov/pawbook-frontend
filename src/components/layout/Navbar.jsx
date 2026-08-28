@@ -6,16 +6,15 @@ function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Gallery', href: '/gallery' },
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Gallery', href: '#gallery' },
   ]
 
   return (
     <nav className="bg-surface border-b border-border sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img
               src={logo}
@@ -27,20 +26,18 @@ function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link
+              <a
                 key={link.name}
-                to={link.href}
+                href={link.href}
                 className="font-body font-semibold text-secondary hover:text-primary transition-colors duration-200"
               >
                 {link.name}
-              </Link>
+              </a>
             ))}
           </div>
 
-          {/* CTA button */}
           <div className="hidden md:block">
             <Link
               to="/book"
@@ -50,7 +47,6 @@ function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 text-text"
@@ -67,18 +63,17 @@ function Navbar() {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden pb-6 space-y-4">
             {navLinks.map((link) => (
-              <Link
+              <a
                 key={link.name}
-                to={link.href}
+                href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block font-body font-semibold text-secondary hover:text-primary transition-colors duration-200"
               >
                 {link.name}
-              </Link>
+              </a>
             ))}
             <Link
               to="/book"

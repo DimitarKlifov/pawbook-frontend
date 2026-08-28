@@ -1,18 +1,17 @@
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
-import HeroSection from './components/hero/HeroSection'
-import AboutSection from './components/about/AboutSection'
-import ServicesSection from './components/services/ServicesSection'
-import GallerySection from './components/gallery/GallerySection'
 import Footer from './components/layout/Footer'
+import HomePage from './pages/HomePage'
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <ServicesSection />
-      <GallerySection />
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   )

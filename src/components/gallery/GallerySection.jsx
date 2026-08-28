@@ -14,7 +14,7 @@ function GallerySection() {
   }, [])
 
   return (
-    <section className="bg-background py-16 md:py-24">
+    <section id="gallery" className="bg-background py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="font-display text-primary font-semibold tracking-wide uppercase text-sm mb-3">
