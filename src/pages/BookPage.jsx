@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { getServices } from '../lib/api/services'
 import { getMyPets } from '../lib/api/pets'
 import { getAvailability, createBooking } from '../lib/api/bookings'
+import DatePicker from '../components/booking/DatePicker'
 
 function BookPage() {
   const navigate = useNavigate()
@@ -83,12 +84,18 @@ function BookPage() {
   if (bookingSuccess) {
     return (
       <div className="max-w-lg mx-auto px-6 py-16 text-center space-y-4">
-        <h1 className="font-display text-3xl font-bold text-text">Booking Confirmed! 🎉</h1>
+        <h1 className="font-display text-3xl font-bold text-text">Booking Confirmed!</h1>
         <div className="bg-surface border border-border rounded-2xl p-6 text-left space-y-2 mt-6">
           <p className="font-body text-text"><strong>Pet:</strong> {bookingSuccess.petName}</p>
           <p className="font-body text-text"><strong>Service:</strong> {bookingSuccess.serviceName}</p>
           <p className="font-body text-text">
-            <strong>When:</strong> {new Date(bookingSuccess.startTime).toLocaleString()}
+            <strong>When:</strong> {new Date(bookingSuccess.startTime).toLocaleString('en-GB', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+            })}
           </p>
         </div>
         <button
@@ -156,13 +163,10 @@ function BookPage() {
       {step === 3 && (
         <div className="space-y-4">
           <h2 className="font-display font-semibold text-text text-lg">Choose a date</h2>
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={handleDateChange}
-            min={new Date().toISOString().split('T')[0]}
-            className="w-full px-4 py-3 rounded-xl border border-border bg-surface font-body text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200"
-          />
+          <DatePicker
+            selectedDate={selectedDate}
+            onSelectDate={(date) => handleDateChange({ target: { value: date } })}
+        />
 
           {loadingSlots && <p className="font-body text-text-muted">Checking availability...</p>}
 
@@ -205,7 +209,9 @@ function BookPage() {
           <div className="bg-surface border border-border rounded-2xl p-6 space-y-2">
             <p className="font-body text-text"><strong>Pet:</strong> {selectedPet.name}</p>
             <p className="font-body text-text"><strong>Service:</strong> {selectedService.name}</p>
-            <p className="font-body text-text"><strong>Date:</strong> {selectedDate}</p>
+            <p className="font-body text-text">
+                <strong>Date:</strong> {new Date(selectedDate).toLocaleDateString('en-GB')}
+            </p>
             <p className="font-body text-text"><strong>Time:</strong> {selectedTime.slice(0, 5)}</p>
           </div>
 
