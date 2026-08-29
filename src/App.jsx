@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import MyPetsPage from './pages/MyPetsPage'
+import BookPage from './pages/BookPage'
 
 function App() {
   return (
@@ -17,10 +18,17 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/my-pets" element={
+         <ProtectedRoute>
+          <MyPetsPage />
+         </ProtectedRoute>
+          } />
+          <Route path="/book" element={
   <ProtectedRoute>
-    <MyPetsPage />
+    <BookPage />
   </ProtectedRoute>
 } />
+
+
         </Routes>
       </main>
       <Footer />
