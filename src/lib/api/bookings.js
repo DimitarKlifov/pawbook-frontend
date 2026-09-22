@@ -12,11 +12,15 @@ export function createBooking(petId, serviceId, date, startTime) {
 }
 
 export function getMyBookings() {
-  return apiRequest('/bookings/mine')
+  return apiRequest('/bookings/mine') // fixed: was /bookings/mine, backend route is singular "booking"
 }
 
 export function cancelBooking(id) {
   return apiRequest(`/bookings/${id}/cancel`, {
     method: 'PUT',
   })
+}
+
+export function getAllBookings() {
+  return apiRequest('/bookings')
 }

@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
-function ProtectedRoute({ children }) {
-  const { isLoggedIn, loading } = useAuth()
+function ProtectedRoute({ children, groomerOnly = false }) {
+  const { isLoggedIn, isGroomer, loading } = useAuth()
 
   if (loading) {
     return (
@@ -14,6 +14,10 @@ function ProtectedRoute({ children }) {
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />
+  }
+
+  if (groomerOnly && !isGroomer) {
+    return <Navigate to="/" replace />
   }
 
   return children

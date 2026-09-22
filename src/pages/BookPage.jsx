@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { getServices } from '../lib/api/services'
 import { getMyPets } from '../lib/api/pets'
 import { getAvailability, createBooking } from '../lib/api/bookings'
@@ -7,6 +8,8 @@ import DatePicker from '../components/booking/DatePicker'
 
 function BookPage() {
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation()
+  const isMk = i18n.language === 'mk'
   const [step, setStep] = useState(1)
 
   const [services, setServices] = useState([])
@@ -81,15 +84,21 @@ function BookPage() {
     }
   }
 
+  const serviceName = (service) => (isMk ? service.nameMk : service.nameEn)
+  const selectedServiceName = selectedService ? serviceName(selectedService) : ''
+  const bookingSuccessServiceName = bookingSuccess
+    ? (isMk ? bookingSuccess.serviceNameMk : bookingSuccess.serviceNameEn)
+    : ''
+
   if (bookingSuccess) {
     return (
       <div className="max-w-lg mx-auto px-6 py-16 text-center space-y-4">
-        <h1 className="font-display text-3xl font-bold text-text">Booking Confirmed!</h1>
+        <h1 className="font-display text-3xl font-bold text-text">{t('booking.confirmed')}</h1>
         <div className="bg-surface border border-border rounded-2xl p-6 text-left space-y-2 mt-6">
-          <p className="font-body text-text"><strong>Pet:</strong> {bookingSuccess.petName}</p>
-          <p className="font-body text-text"><strong>Service:</strong> {bookingSuccess.serviceName}</p>
+          <p className="font-body text-text"><strong>{t('booking.pet')}:</strong> {bookingSuccess.petName}</p>
+          <p className="font-body text-text"><strong>{t('booking.service')}:</strong> {bookingSuccessServiceName}</p>
           <p className="font-body text-text">
-            <strong>When:</strong> {new Date(bookingSuccess.startTime).toLocaleString('en-GB', {
+            <strong>{t('booking.when')}:</strong> {new Date(bookingSuccess.startTime).toLocaleString('en-GB', {
   day: '2-digit',
   month: '2-digit',
   year: 'numeric',
@@ -102,45 +111,43 @@ function BookPage() {
           onClick={() => navigate('/')}
           className="mt-6 bg-primary text-white px-6 py-3 rounded-full font-display font-semibold hover:bg-primary-dark transition-colors duration-200"
         >
-          Back to Home
+          {t('booking.backToHome')}
         </button>
       </div>
     )
   }
 
   if (loadingOptions) {
-    return <p className="text-center py-16 font-body text-text-muted">Loading...</p>
+    return <p className="text-center py-16 font-body text-text-muted">{t('booking.loading')}</p>
   }
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="font-display text-3xl font-bold text-text mb-8 text-center">
-        Book an Appointment
+        {t('booking.title')}
       </h1>
 
-      {/* Step 1: Service */}
       {step === 1 && (
         <div className="space-y-3">
-          <h2 className="font-display font-semibold text-text text-lg">Choose a service</h2>
+          <h2 className="font-display font-semibold text-text text-lg">{t('booking.chooseService')}</h2>
           {services.map((service) => (
             <button
               key={service.id}
               onClick={() => selectService(service)}
               className="w-full text-left bg-surface border border-border rounded-2xl p-4 hover:border-primary transition-colors duration-200"
             >
-              <p className="font-display font-semibold text-text">{service.name}</p>
+              <p className="font-display font-semibold text-text">{serviceName(service)}</p>
             </button>
           ))}
         </div>
       )}
 
-      {/* Step 2: Pet */}
       {step === 2 && (
         <div className="space-y-3">
-          <h2 className="font-display font-semibold text-text text-lg">Choose your pet</h2>
+          <h2 className="font-display font-semibold text-text text-lg">{t('booking.choosePet')}</h2>
           {pets.length === 0 && (
             <p className="font-body text-text-muted">
-              You don't have any pets yet. Add one on your Pets page first.
+              {t('booking.noPets')}
             </p>
           )}
           {pets.map((pet) => (
@@ -154,31 +161,30 @@ function BookPage() {
             </button>
           ))}
           <button onClick={() => setStep(1)} className="font-body text-sm text-text-muted hover:text-primary">
-            ← Back
+            ← {t('booking.back')}
           </button>
         </div>
       )}
 
-      {/* Step 3: Date & time */}
       {step === 3 && (
         <div className="space-y-4">
-          <h2 className="font-display font-semibold text-text text-lg">Choose a date</h2>
+          <h2 className="font-display font-semibold text-text text-lg">{t('booking.chooseDate')}</h2>
           <DatePicker
             selectedDate={selectedDate}
             onSelectDate={(date) => handleDateChange({ target: { value: date } })}
         />
 
-          {loadingSlots && <p className="font-body text-text-muted">Checking availability...</p>}
+          {loadingSlots && <p className="font-body text-text-muted">{t('booking.checkingAvailability')}</p>}
 
           {!loadingSlots && selectedDate && !dayOpen && (
             <p className="font-body text-text-muted">
-              We're closed on this date. Please choose another day.
+              {t('booking.closedThisDay')}
             </p>
           )}
 
           {!loadingSlots && selectedDate && dayOpen && availableSlots.length === 0 && (
             <p className="font-body text-text-muted">
-              No appointments available for this date. Please choose another day.
+              {t('booking.noSlotsAvailable')}
             </p>
           )}
 
@@ -197,22 +203,21 @@ function BookPage() {
           )}
 
           <button onClick={() => setStep(2)} className="font-body text-sm text-text-muted hover:text-primary">
-            ← Back
+            ← {t('booking.back')}
           </button>
         </div>
       )}
 
-      {/* Step 4: Confirm */}
       {step === 4 && (
         <div className="space-y-4">
-          <h2 className="font-display font-semibold text-text text-lg">Review your booking</h2>
+          <h2 className="font-display font-semibold text-text text-lg">{t('booking.reviewBooking')}</h2>
           <div className="bg-surface border border-border rounded-2xl p-6 space-y-2">
-            <p className="font-body text-text"><strong>Pet:</strong> {selectedPet.name}</p>
-            <p className="font-body text-text"><strong>Service:</strong> {selectedService.name}</p>
+            <p className="font-body text-text"><strong>{t('booking.pet')}:</strong> {selectedPet.name}</p>
+            <p className="font-body text-text"><strong>{t('booking.service')}:</strong> {selectedServiceName}</p>
             <p className="font-body text-text">
-                <strong>Date:</strong> {new Date(selectedDate).toLocaleDateString('en-GB')}
+                <strong>{t('booking.date')}:</strong> {new Date(selectedDate).toLocaleDateString('en-GB')}
             </p>
-            <p className="font-body text-text"><strong>Time:</strong> {selectedTime.slice(0, 5)}</p>
+            <p className="font-body text-text"><strong>{t('booking.time')}:</strong> {selectedTime.slice(0, 5)}</p>
           </div>
 
           {bookingError && <p className="font-body text-sm text-error">{bookingError}</p>}
@@ -222,14 +227,14 @@ function BookPage() {
               onClick={() => setStep(3)}
               className="font-body text-sm text-text-muted hover:text-primary"
             >
-              ← Back
+              ← {t('booking.back')}
             </button>
             <button
               onClick={handleConfirm}
               disabled={confirming}
               className="flex-1 bg-primary text-white px-6 py-3 rounded-full font-display font-semibold hover:bg-primary-dark disabled:opacity-50 transition-colors duration-200"
             >
-              {confirming ? 'Booking...' : 'Confirm Booking'}
+              {confirming ? t('booking.booking') : t('booking.confirmBooking')}
             </button>
           </div>
         </div>

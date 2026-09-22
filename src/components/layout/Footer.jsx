@@ -6,7 +6,6 @@ function Footer() {
     <footer className="bg-secondary text-white">
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid sm:grid-cols-3 gap-8">
-          {/* Brand */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <img
@@ -23,7 +22,6 @@ function Footer() {
             </p>
           </div>
 
-          {/* Quick links */}
           <div className="space-y-3">
             <h3 className="font-display font-semibold text-white">
               Quick Links
@@ -32,10 +30,10 @@ function Footer() {
               <Link to="/" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
                 Home
               </Link>
-              <Link to="/about" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
+              <Link to="/#about" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
                 About
               </Link>
-              <Link to="/gallery" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
+              <Link to="/#gallery" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
                 Gallery
               </Link>
               <Link to="/book" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
@@ -44,7 +42,6 @@ function Footer() {
             </div>
           </div>
 
-          {/* Contact */}
           <div className="space-y-3">
             <h3 className="font-display font-semibold text-white">
               Contact
@@ -57,10 +54,18 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-8 pt-6 text-center">
+        <div className="border-t border-white/10 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-body text-secondary-light text-sm">
             © {new Date().getFullYear()} PawBook. All rights reserved.
           </p>
+          <div className="flex gap-4">
+            <Link to="/privacy-policy" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="font-body text-secondary-light hover:text-white transition-colors duration-200 text-sm">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

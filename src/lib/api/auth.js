@@ -14,6 +14,10 @@ export function login(email, password) {
   })
 }
 
+export function verifyEmail(token) {
+  return apiRequest(`/auth/verify?token=${encodeURIComponent(token)}`)
+}
+
 export function forgotPassword(email) {
   return apiRequest('/auth/forgot-password', {
     method: 'POST',
