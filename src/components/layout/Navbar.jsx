@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Languages } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
-import logo from '../../assets/images/logo.jpg'
+import logo from '../../assets/images/logo.svg'
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
